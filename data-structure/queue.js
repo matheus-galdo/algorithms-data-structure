@@ -23,7 +23,7 @@ class Queue {
 
         const firstElement = this.elements[this.lowestCount];
         delete this.elements[this.lowestCount];
-        this.lowestCount++
+        this.lowestCount++;
         return firstElement;
     }
 
@@ -82,5 +82,5 @@ const filaDoPao = new Queue();
 filaDoPao.enqueue('Francês');
 filaDoPao.enqueue('Banha');
 filaDoPao.enqueue('Brioche');
-filaDoPao.dequeue()
+filaDoPao.dequeue();
 console.log(filaDoPao.size(), filaDoPao.toString());

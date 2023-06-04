@@ -16,7 +16,7 @@ class ObservableSubject{
 
 
     subscribe(observer){
-        this.#observers.push(observer)
+        this.#observers.push(observer);
     }
 }
 
