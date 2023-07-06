@@ -1,4 +1,8 @@
-class TreeNode {
+interface BSTInterface{
+    insert(key: any): TreeNode | undefined;
+}
+
+export class TreeNode {
     key: any;
     left: TreeNode | null;
     right: TreeNode | null;
@@ -10,10 +14,10 @@ class TreeNode {
     }
 }
 
-type TraverseAction = (node: TreeNode) => any;
-type CompareFunction = (key: any, node: TreeNode) => 'left' | 'right';
+export type TraverseAction = (node: TreeNode) => any;
+export type CompareFunction = (key: any, node: TreeNode) => 'left' | 'right';
 
-class BinarySearchTree {
+export default class BinarySearchTree implements BSTInterface{
     root: null | TreeNode;
     compareFn: CompareFunction;
 
@@ -36,7 +40,7 @@ class BinarySearchTree {
             this.root = new TreeNode(key);
             return this.root;
         } else {
-            this.insertNode(key, this.root);
+            return this.insertNode(key, this.root);
         }
     }
 
@@ -45,16 +49,19 @@ class BinarySearchTree {
      * @param key 
      * @returns 
      */
-    private insertNode(key: any, node: TreeNode) {
+    protected insertNode(key: any, node: TreeNode): TreeNode | undefined {
         const newKey = new TreeNode(key);
 
         //essa comparação precisa usar a função de comparar, já que o node pode não ser númerico, mas objetos complexos
         const side = this.compareFn(key, node);
         if (node[side] === null) {
             node[side] = newKey;
+            return newKey;
         } else {
             const nodeSide = node[side];
-            if (nodeSide) this.insertNode(key, nodeSide);
+            if (nodeSide) {
+                return this.insertNode(key, nodeSide);
+            }
         }
     }
 
@@ -79,7 +86,7 @@ class BinarySearchTree {
     traverseInOrderNode(node: TreeNode | null, action: TraverseAction) {
         if (node) {
             this.traverseInOrderNode(node.left, action);
-            action(node.key);
+            action(node);
             this.traverseInOrderNode(node.right, action);
         }
     }
@@ -90,7 +97,7 @@ class BinarySearchTree {
 
     traversePreOrderNode(node: TreeNode | null, action: TraverseAction) {
         if (node) {
-            action(node.key);
+            action(node);
             this.traversePreOrderNode(node.left, action);
             this.traversePreOrderNode(node.right, action);
         }
@@ -104,29 +111,29 @@ class BinarySearchTree {
         if (node) {
             this.traversePostOrderNode(node.left, action);
             this.traversePostOrderNode(node.right, action);
-            action(node.key);
+            action(node);
         }
     }
 }
 
-const tree = new BinarySearchTree();
-tree.insert(11);
-tree.insert(7);
-tree.insert(15);
-tree.insert(5);
-tree.insert(3);
-tree.insert(9);
-tree.insert(8);
-tree.insert(13);
-tree.insert(12);
-tree.insert(14);
-tree.insert(20);
-tree.insert(18);
-tree.insert(25);
-// console.log(tree.root);
+// const tree = new BinarySearchTree();
+// tree.insert(11);
+// tree.insert(7);
+// tree.insert(15);
+// tree.insert(5);
+// tree.insert(3);
+// tree.insert(9);
+// tree.insert(8);
+// tree.insert(13);
+// tree.insert(12);
+// tree.insert(14);
+// tree.insert(20);
+// tree.insert(18);
+// tree.insert(25);
+// // console.log(tree.root);
 
-function showNode(key: any) {
-    console.log(key);
-}
+// function showNode(key: any) {
+//     console.log(key);
+// }
 
-tree.traversePreOrder(showNode);
+// tree.traversePreOrder(showNode);
